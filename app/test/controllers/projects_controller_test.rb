@@ -45,4 +45,16 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to projects_url
   end
+
+  test "should not create project with empty data" do
+    assert_no_difference("Project.count") do
+      post projects_url, params: { project: { name: nil, url: nil } }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not update project with empty name" do
+    patch project_url(@project), params: { project: { name: nil, url: nil } }
+    assert_response :unprocessable_entity
+    end
 end
